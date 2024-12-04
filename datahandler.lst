@@ -1,0 +1,151 @@
+   1               		.file	"datahandler.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	DataHandler_Buf_Flush
+  18               	DataHandler_Buf_Flush:
+  19               	.LFB6:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 E0E0      		ldi r30,lo8(DataHandler)
+  25 0002 F0E0      		ldi r31,hi8(DataHandler)
+  26               	.L2:
+  27               	.LBB5:
+  28               	.LM3:
+  29 0004 1192      		st Z+,__zero_reg__
+  30               	.LM4:
+  31 0006 80E0      		ldi r24,hi8(DataHandler+10)
+  32 0008 E030      		cpi r30,lo8(DataHandler+10)
+  33 000a F807      		cpc r31,r24
+  34 000c 01F4      		brne .L2
+  35               	.LBE5:
+  36               	.LM5:
+  37 000e 1082      		st Z,__zero_reg__
+  38               	/* epilogue start */
+  39               	.LM6:
+  40 0010 0895      		ret
+  41               	.LFE6:
+  43               	.global	DataHandler_Buf_Assign
+  45               	DataHandler_Buf_Assign:
+  46               	.LFB7:
+  47               	.LM7:
+  48               	.LVL0:
+  49               	/* prologue: function */
+  50               	/* frame size = 0 */
+  51               	.LM8:
+  52 0012 6A30      		cpi r22,lo8(10)
+  53 0014 00F4      		brsh .L7
+  54               	.LM9:
+  55 0016 E62F      		mov r30,r22
+  56 0018 F0E0      		ldi r31,lo8(0)
+  57               	.LVL1:
+  58 001a E050      		subi r30,lo8(-(DataHandler))
+  59 001c F040      		sbci r31,hi8(-(DataHandler))
+  60               	.LVL2:
+  61 001e 8083      		st Z,r24
+  62               	.LVL3:
+  63               	.L7:
+  64 0020 0895      		ret
+  65               	.LFE7:
+  67               	.global	DataHandler_Buf_Get
+  69               	DataHandler_Buf_Get:
+  70               	.LFB8:
+  71               	.LM10:
+  72               	.LVL4:
+  73               	/* prologue: function */
+  74               	/* frame size = 0 */
+  75               	.LM11:
+  76 0022 8A30      		cpi r24,lo8(10)
+  77 0024 00F0      		brlo .L9
+  78 0026 80E0      		ldi r24,lo8(0)
+  79               	.LVL5:
+  80 0028 0895      		ret
+  81               	.LVL6:
+  82               	.L9:
+  83               	.LM12:
+  84 002a E82F      		mov r30,r24
+  85 002c F0E0      		ldi r31,lo8(0)
+  86               	.LVL7:
+  87 002e E050      		subi r30,lo8(-(DataHandler))
+  88 0030 F040      		sbci r31,hi8(-(DataHandler))
+  89               	.LVL8:
+  90 0032 8081      		ld r24,Z
+  91               	.LM13:
+  92 0034 0895      		ret
+  93               	.LFE8:
+  95               	.global	DataHandler_Char_To_Dec
+  97               	DataHandler_Char_To_Dec:
+  98               	.LFB9:
+  99               	.LM14:
+ 100               	.LVL9:
+ 101               	/* prologue: function */
+ 102               	/* frame size = 0 */
+ 103               	.LM15:
+ 104 0036 8933      		cpi r24,lo8(57)
+ 105 0038 00F4      		brsh .L13
+ 106 003a 80E0      		ldi r24,lo8(0)
+ 107               	.LVL10:
+ 108 003c 0895      		ret
+ 109               	.LVL11:
+ 110               	.L13:
+ 111               	.LM16:
+ 112 003e 8053      		subi r24,lo8(-(-48))
+ 113               	.LVL12:
+ 114               	.LVL13:
+ 115               	.LM17:
+ 116 0040 0895      		ret
+ 117               	.LFE9:
+ 119               	.global	DataHandler_Init
+ 121               	DataHandler_Init:
+ 122               	.LFB10:
+ 123               	.LM18:
+ 124               	/* prologue: function */
+ 125               	/* frame size = 0 */
+ 126               	.LM19:
+ 127 0042 E0E0      		ldi r30,lo8(DataHandler)
+ 128 0044 F0E0      		ldi r31,hi8(DataHandler)
+ 129               	.L17:
+ 130               	.LBB6:
+ 131               	.LBB7:
+ 132               	.LBB8:
+ 133               	.LM20:
+ 134 0046 1192      		st Z+,__zero_reg__
+ 135               	.LM21:
+ 136 0048 80E0      		ldi r24,hi8(DataHandler+10)
+ 137 004a E030      		cpi r30,lo8(DataHandler+10)
+ 138 004c F807      		cpc r31,r24
+ 139 004e 01F4      		brne .L17
+ 140               	.LBE8:
+ 141               	.LM22:
+ 142 0050 1082      		st Z,__zero_reg__
+ 143               	/* epilogue start */
+ 144               	.LBE7:
+ 145               	.LBE6:
+ 146               	.LM23:
+ 147 0052 0895      		ret
+ 148               	.LFE10:
+ 150               		.comm DataHandler,11,1
+ 207               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 datahandler.c
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:2      *ABS*:0000003f __SREG__
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:3      *ABS*:0000003e __SP_H__
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:4      *ABS*:0000003d __SP_L__
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:5      *ABS*:00000034 __CCP__
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:18     .text:00000000 DataHandler_Buf_Flush
+                            *COM*:0000000b DataHandler
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:45     .text:00000012 DataHandler_Buf_Assign
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:69     .text:00000022 DataHandler_Buf_Get
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:97     .text:00000036 DataHandler_Char_To_Dec
+C:\Users\WALTON\AppData\Local\Temp/ccqP9oib.s:121    .text:00000042 DataHandler_Init
+
+UNDEFINED SYMBOLS
+__do_clear_bss

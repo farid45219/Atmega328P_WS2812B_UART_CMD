@@ -23,6 +23,7 @@ typedef struct ws2812b_t{
 	uint8_t TargetRed;
 	uint8_t TargetGreen;
 	uint8_t TargetBlue;
+	uint8_t MaxVal;
 }ws2812b_t;
 
 ws2812b_t WS2812B = {
@@ -31,7 +32,8 @@ ws2812b_t WS2812B = {
 	.Blue = 0,
 	.TargetRed = 0,
 	.TargetGreen = 0,
-	.TargetBlue = 0
+	.TargetBlue = 0,
+	.MaxVal = DEFAULT_MAX_VALUE
 };
 
 
@@ -266,28 +268,27 @@ void WS2812B_send_rgb(uint8_t red, uint8_t green, uint8_t blue){
 
 
 void WS2812B_send_rgb_Target(uint8_t red, uint8_t green, uint8_t blue){
-	if(red > MAX_VALUE){
-	  WS2812B.TargetRed = MAX_VALUE;
+	if(red > WS2812B.MaxVal){
+	  WS2812B.TargetRed = WS2812B.MaxVal;
 	}
 	else{
 		WS2812B.TargetRed = red;
 	}
 	
-	if(green > MAX_VALUE){
-	  WS2812B.TargetGreen = MAX_VALUE;
+	if(green > WS2812B.MaxVal){
+	  WS2812B.TargetGreen = WS2812B.MaxVal;
 	}
 	else{
 		WS2812B.TargetGreen = green;
 	}
 	
-	if(blue > MAX_VALUE){
-	  WS2812B.TargetBlue = MAX_VALUE;
+	if(blue > WS2812B.MaxVal){
+	  WS2812B.TargetBlue = WS2812B.MaxVal;
 	}
 	else{
 		WS2812B.TargetBlue = blue;
 	}
 }
-
 
 void WS2812B_Sync(void){
 	uint8_t break_condition = 0;
@@ -332,6 +333,15 @@ void WS2812B_Sync(void){
 		}
 	}
 	
+}
+
+
+uint8_t WS2812B_Get_Max_Intensity(void){
+  return WS2812B.MaxVal;
+}
+
+void WS2812B_Set_Max_Intensity(uint8_t val){
+  WS2812B.MaxVal = val;
 }
 
   
