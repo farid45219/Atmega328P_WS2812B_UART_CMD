@@ -29,19 +29,28 @@ int main(void){
 	  UART_Data_Print_Buf();
 	  UART_RX_Packet_Read_Complete();
 	  if(DataHandler_Buf_Get(1) == ':'){
+	  
 	    cmd = DataHandler_Buf_Get(0);
-		intensity = DataHandler_Char_To_Dec(2);
+		intensity = DataHandler_Char_To_Dec(DataHandler_Buf_Get(2));
 		intensity*= 10;
-		intensity+= DataHandler_Char_To_Dec(3);
+		intensity+= DataHandler_Char_To_Dec(DataHandler_Buf_Get(3));
 		intensity*= 10;
-		intensity+= DataHandler_Char_To_Dec(4);
+		intensity+= DataHandler_Char_To_Dec(DataHandler_Buf_Get(4));
+		
 		if(intensity > 255){
 		  intensity = 0;
 		  cmd = 0;
 		}
+		
 		else{
 		  WS2812B_Set_Max_Intensity(intensity);
+		  UART_Tx_Text_SP("CMD");
+		  UART_Tx_Byte(cmd);
+		  UART_Tx_NL();
+		  UART_Tx_Parameter_NL("CMD_Intensity", intensity);
+		  UART_Tx_Parameter_NL("ACT_Intensity", WS2812B_Get_Max_Intensity());
 		}
+		
 	  }
 	  else{
 	    intensity = 0;
@@ -114,11 +123,7 @@ int main(void){
 	  PORTD&=~(1<<4);
 	}
 	
-	else{
-	  UART_Tx_Parameter_NL("Wrong CMD", WS2812B_Get_Max_Intensity());
-	  DataHandler_Buf_Flush();
-	  cmd = 0;
-	}
+	
 	
 	WS2812B_Sync();
 	

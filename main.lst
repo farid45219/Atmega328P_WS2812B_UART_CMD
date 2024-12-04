@@ -13,353 +13,378 @@
   18      6172 7465 
   18      6400 
   19               	.LC1:
-  20 000e 4578 6563 		.string	"Executed RED"
-  20      7574 6564 
-  20      2052 4544 
-  20      00
+  20 000e 434D 4400 		.string	"CMD"
   21               	.LC2:
-  22 001b 4578 6563 		.string	"Executed ICE Blue"
-  22      7574 6564 
-  22      2049 4345 
-  22      2042 6C75 
-  22      6500 
+  22 0012 434D 445F 		.string	"CMD_Intensity"
+  22      496E 7465 
+  22      6E73 6974 
+  22      7900 
   23               	.LC3:
-  24 002d 4578 6563 		.string	"Executed Off"
-  24      7574 6564 
-  24      204F 6666 
-  24      00
+  24 0020 4143 545F 		.string	"ACT_Intensity"
+  24      496E 7465 
+  24      6E73 6974 
+  24      7900 
   25               	.LC4:
-  26 003a 4578 6563 		.string	"Executed Green"
+  26 002e 4578 6563 		.string	"Executed RED"
   26      7574 6564 
-  26      2047 7265 
-  26      656E 00
+  26      2052 4544 
+  26      00
   27               	.LC5:
-  28 0049 4578 6563 		.string	"Executed Blue"
+  28 003b 4578 6563 		.string	"Executed ICE Blue"
   28      7574 6564 
+  28      2049 4345 
   28      2042 6C75 
   28      6500 
   29               	.LC6:
-  30 0057 4578 6563 		.string	"Executed Purple"
+  30 004d 4578 6563 		.string	"Executed Off"
   30      7574 6564 
-  30      2050 7572 
-  30      706C 6500 
+  30      204F 6666 
+  30      00
   31               	.LC7:
-  32 0067 5772 6F6E 		.string	"Wrong CMD"
-  32      6720 434D 
-  32      4400 
-  33               		.text
-  34               	.global	main
-  36               	main:
-  37               	.LFB6:
-  38               	.LM1:
-  39 0000 DF92      		push r13
-  40 0002 EF92      		push r14
-  41 0004 FF92      		push r15
-  42 0006 0F93      		push r16
-  43 0008 1F93      		push r17
-  44 000a CF93      		push r28
-  45 000c DF93      		push r29
-  46               	/* prologue: function */
-  47               	/* frame size = 0 */
-  48               	.LM2:
-  49 000e 0E94 0000 		call WS2812B_Init
-  50               	.LM3:
-  51 0012 60E8      		ldi r22,lo8(9600)
-  52 0014 75E2      		ldi r23,hi8(9600)
-  53 0016 80E0      		ldi r24,hlo8(9600)
-  54 0018 90E0      		ldi r25,hhi8(9600)
-  55 001a 0E94 0000 		call UART_Init
-  56               	.LM4:
-  57 001e 80E0      		ldi r24,lo8(.LC0)
-  58 0020 90E0      		ldi r25,hi8(.LC0)
-  59 0022 0E94 0000 		call UART_Tx_Text_NL
-  60               	.LM5:
-  61 0026 549A      		sbi 42-32,4
-  62               	.LM6:
-  63 0028 5C98      		cbi 43-32,4
-  64               	.LVL0:
-  65               	.L20:
-  66               	.LM7:
-  67 002a 0E94 0000 		call UART_Data_Available
-  68 002e 8823      		tst r24
-  69 0030 01F4      		brne .+2
-  70 0032 00C0      		rjmp .L19
-  71               	.LM8:
-  72 0034 5C9A      		sbi 43-32,4
-  73 0036 C0E0      		ldi r28,lo8(0)
-  74 0038 D0E0      		ldi r29,hi8(0)
-  75               	.L4:
-  76               	.LBB2:
-  77               	.LM9:
-  78 003a CE01      		movw r24,r28
-  79 003c 0E94 0000 		call UART_Buf_Get
-  80 0040 6C2F      		mov r22,r28
-  81 0042 0E94 0000 		call DataHandler_Buf_Assign
-  82 0046 2196      		adiw r28,1
-  83               	.LM10:
-  84 0048 C630      		cpi r28,6
-  85 004a D105      		cpc r29,__zero_reg__
-  86 004c 01F4      		brne .L4
-  87               	.LBE2:
-  88               	.LM11:
-  89 004e 0E94 0000 		call UART_Data_Print_Buf
-  90               	.LM12:
-  91 0052 0E94 0000 		call UART_RX_Packet_Read_Complete
-  92               	.LM13:
-  93 0056 81E0      		ldi r24,lo8(1)
-  94 0058 0E94 0000 		call DataHandler_Buf_Get
-  95 005c 8A33      		cpi r24,lo8(58)
-  96 005e 01F4      		brne .L5
-  97               	.LM14:
-  98 0060 80E0      		ldi r24,lo8(0)
-  99 0062 0E94 0000 		call DataHandler_Buf_Get
- 100 0066 D82E      		mov r13,r24
- 101               	.LM15:
- 102 0068 82E0      		ldi r24,lo8(2)
- 103 006a 0E94 0000 		call DataHandler_Char_To_Dec
- 104               	.LM16:
- 105 006e 282F      		mov r18,r24
- 106               	.LVL1:
- 107 0070 30E0      		ldi r19,lo8(0)
- 108               	.LVL2:
- 109 0072 8901      		movw r16,r18
- 110 0074 53E0      		ldi r21,3
- 111 0076 000F      	1:	lsl r16
- 112 0078 111F      		rol r17
- 113 007a 5A95      		dec r21
- 114 007c 01F4      		brne 1b
- 115 007e 220F      		lsl r18
- 116 0080 331F      		rol r19
- 117               	.LVL3:
- 118 0082 020F      		add r16,r18
- 119 0084 131F      		adc r17,r19
- 120               	.LM17:
- 121 0086 83E0      		ldi r24,lo8(3)
- 122 0088 0E94 0000 		call DataHandler_Char_To_Dec
+  32 005a 4578 6563 		.string	"Executed Green"
+  32      7574 6564 
+  32      2047 7265 
+  32      656E 00
+  33               	.LC8:
+  34 0069 4578 6563 		.string	"Executed Blue"
+  34      7574 6564 
+  34      2042 6C75 
+  34      6500 
+  35               	.LC9:
+  36 0077 4578 6563 		.string	"Executed Purple"
+  36      7574 6564 
+  36      2050 7572 
+  36      706C 6500 
+  37               		.text
+  38               	.global	main
+  40               	main:
+  41               	.LFB6:
+  42               	.LM1:
+  43 0000 FF92      		push r15
+  44 0002 0F93      		push r16
+  45 0004 1F93      		push r17
+  46 0006 CF93      		push r28
+  47 0008 DF93      		push r29
+  48               	/* prologue: function */
+  49               	/* frame size = 0 */
+  50               	.LM2:
+  51 000a 0E94 0000 		call WS2812B_Init
+  52               	.LM3:
+  53 000e 60E8      		ldi r22,lo8(9600)
+  54 0010 75E2      		ldi r23,hi8(9600)
+  55 0012 80E0      		ldi r24,hlo8(9600)
+  56 0014 90E0      		ldi r25,hhi8(9600)
+  57 0016 0E94 0000 		call UART_Init
+  58               	.LM4:
+  59 001a 80E0      		ldi r24,lo8(.LC0)
+  60 001c 90E0      		ldi r25,hi8(.LC0)
+  61 001e 0E94 0000 		call UART_Tx_Text_NL
+  62               	.LM5:
+  63 0022 549A      		sbi 42-32,4
+  64               	.LM6:
+  65 0024 5C98      		cbi 43-32,4
+  66 0026 FF24      		clr r15
+  67               	.LVL0:
+  68               	.L18:
+  69               	.LM7:
+  70 0028 0E94 0000 		call UART_Data_Available
+  71 002c 8823      		tst r24
+  72 002e 01F4      		brne .+2
+  73 0030 00C0      		rjmp .L2
+  74               	.LM8:
+  75 0032 5C9A      		sbi 43-32,4
+  76 0034 C0E0      		ldi r28,lo8(0)
+  77 0036 D0E0      		ldi r29,hi8(0)
+  78               	.LVL1:
+  79               	.L3:
+  80               	.LBB2:
+  81               	.LM9:
+  82 0038 CE01      		movw r24,r28
+  83 003a 0E94 0000 		call UART_Buf_Get
+  84 003e 6C2F      		mov r22,r28
+  85 0040 0E94 0000 		call DataHandler_Buf_Assign
+  86 0044 2196      		adiw r28,1
+  87               	.LM10:
+  88 0046 C630      		cpi r28,6
+  89 0048 D105      		cpc r29,__zero_reg__
+  90 004a 01F4      		brne .L3
+  91               	.LBE2:
+  92               	.LM11:
+  93 004c 0E94 0000 		call UART_Data_Print_Buf
+  94               	.LM12:
+  95 0050 0E94 0000 		call UART_RX_Packet_Read_Complete
+  96               	.LM13:
+  97 0054 81E0      		ldi r24,lo8(1)
+  98 0056 0E94 0000 		call DataHandler_Buf_Get
+  99 005a 8A33      		cpi r24,lo8(58)
+ 100 005c 01F0      		breq .+2
+ 101 005e 00C0      		rjmp .L4
+ 102               	.LM14:
+ 103 0060 80E0      		ldi r24,lo8(0)
+ 104 0062 0E94 0000 		call DataHandler_Buf_Get
+ 105 0066 F82E      		mov r15,r24
+ 106               	.LM15:
+ 107 0068 82E0      		ldi r24,lo8(2)
+ 108 006a 0E94 0000 		call DataHandler_Buf_Get
+ 109 006e 0E94 0000 		call DataHandler_Char_To_Dec
+ 110               	.LM16:
+ 111 0072 282F      		mov r18,r24
+ 112               	.LVL2:
+ 113 0074 30E0      		ldi r19,lo8(0)
+ 114               	.LVL3:
+ 115 0076 8901      		movw r16,r18
+ 116 0078 53E0      		ldi r21,3
+ 117 007a 000F      	1:	lsl r16
+ 118 007c 111F      		rol r17
+ 119 007e 5A95      		dec r21
+ 120 0080 01F4      		brne 1b
+ 121 0082 220F      		lsl r18
+ 122 0084 331F      		rol r19
  123               	.LVL4:
- 124 008c 080F      		add r16,r24
- 125 008e 111D      		adc r17,__zero_reg__
- 126               	.LVL5:
- 127               	.LM18:
- 128 0090 7801      		movw r14,r16
- 129 0092 93E0      		ldi r25,3
- 130 0094 EE0C      	1:	lsl r14
- 131 0096 FF1C      		rol r15
- 132 0098 9A95      		dec r25
- 133 009a 01F4      		brne 1b
- 134 009c 000F      		lsl r16
- 135 009e 111F      		rol r17
- 136 00a0 E00E      		add r14,r16
- 137 00a2 F11E      		adc r15,r17
- 138               	.LM19:
- 139 00a4 84E0      		ldi r24,lo8(4)
- 140 00a6 0E94 0000 		call DataHandler_Char_To_Dec
- 141 00aa 9701      		movw r18,r14
- 142 00ac 280F      		add r18,r24
- 143 00ae 311D      		adc r19,__zero_reg__
- 144 00b0 C901      		movw r24,r18
- 145               	.LVL6:
- 146               	.LM20:
- 147 00b2 2F3F      		cpi r18,255
- 148 00b4 3105      		cpc r19,__zero_reg__
- 149 00b6 01F0      		breq .+2
- 150 00b8 00F4      		brsh .L5
- 151               	.LVL7:
- 152               	.LM21:
- 153 00ba 0E94 0000 		call WS2812B_Set_Max_Intensity
- 154               	.LVL8:
- 155 00be 00C0      		rjmp .L6
- 156               	.LVL9:
- 157               	.L5:
- 158 00c0 DD24      		clr r13
- 159               	.L6:
- 160               	.LM22:
- 161 00c2 0E94 0000 		call DataHandler_Buf_Flush
- 162               	.LVL10:
- 163               	.LM23:
- 164 00c6 5C98      		cbi 43-32,4
- 165               	.LM24:
- 166 00c8 32E5      		ldi r19,lo8(82)
- 167 00ca D316      		cp r13,r19
- 168 00cc 01F0      		breq .L7
- 169 00ce 82E7      		ldi r24,lo8(114)
- 170 00d0 D816      		cp r13,r24
- 171 00d2 01F4      		brne .L8
- 172               	.L7:
- 173               	.LM25:
- 174 00d4 80E8      		ldi r24,lo8(-128)
- 175 00d6 60E0      		ldi r22,lo8(0)
- 176 00d8 40E0      		ldi r20,lo8(0)
- 177 00da 0E94 0000 		call WS2812B_send_rgb_Target
- 178               	.LM26:
- 179 00de 5C9A      		sbi 43-32,4
- 180               	.LM27:
- 181 00e0 0E94 0000 		call WS2812B_Get_Max_Intensity
- 182 00e4 482F      		mov r20,r24
- 183 00e6 50E0      		ldi r21,lo8(0)
- 184 00e8 60E0      		ldi r22,lo8(0)
- 185 00ea 70E0      		ldi r23,hi8(0)
- 186 00ec 80E0      		ldi r24,lo8(.LC1)
- 187 00ee 90E0      		ldi r25,hi8(.LC1)
- 188 00f0 00C0      		rjmp .L23
- 189               	.L8:
- 190               	.LM28:
- 191 00f2 29E4      		ldi r18,lo8(73)
- 192 00f4 D216      		cp r13,r18
- 193 00f6 01F0      		breq .L10
- 194 00f8 39E6      		ldi r19,lo8(105)
- 195 00fa D316      		cp r13,r19
- 196 00fc 01F4      		brne .L11
- 197               	.L10:
+ 124 0086 020F      		add r16,r18
+ 125 0088 131F      		adc r17,r19
+ 126               	.LM17:
+ 127 008a 83E0      		ldi r24,lo8(3)
+ 128 008c 0E94 0000 		call DataHandler_Buf_Get
+ 129               	.LVL5:
+ 130 0090 0E94 0000 		call DataHandler_Char_To_Dec
+ 131 0094 080F      		add r16,r24
+ 132 0096 111D      		adc r17,__zero_reg__
+ 133               	.LVL6:
+ 134               	.LM18:
+ 135 0098 E801      		movw r28,r16
+ 136 009a 93E0      		ldi r25,3
+ 137 009c CC0F      	1:	lsl r28
+ 138 009e DD1F      		rol r29
+ 139 00a0 9A95      		dec r25
+ 140 00a2 01F4      		brne 1b
+ 141               	.LVL7:
+ 142 00a4 000F      		lsl r16
+ 143 00a6 111F      		rol r17
+ 144               	.LVL8:
+ 145 00a8 C00F      		add r28,r16
+ 146 00aa D11F      		adc r29,r17
+ 147               	.LVL9:
+ 148               	.LM19:
+ 149 00ac 84E0      		ldi r24,lo8(4)
+ 150 00ae 0E94 0000 		call DataHandler_Buf_Get
+ 151 00b2 0E94 0000 		call DataHandler_Char_To_Dec
+ 152 00b6 C80F      		add r28,r24
+ 153 00b8 D11D      		adc r29,__zero_reg__
+ 154               	.LM20:
+ 155 00ba CF3F      		cpi r28,255
+ 156 00bc D105      		cpc r29,__zero_reg__
+ 157 00be 01F0      		breq .+2
+ 158 00c0 00F4      		brsh .L4
+ 159               	.LM21:
+ 160 00c2 8C2F      		mov r24,r28
+ 161 00c4 0E94 0000 		call WS2812B_Set_Max_Intensity
+ 162               	.LM22:
+ 163 00c8 80E0      		ldi r24,lo8(.LC1)
+ 164 00ca 90E0      		ldi r25,hi8(.LC1)
+ 165 00cc 0E94 0000 		call UART_Tx_Text_SP
+ 166               	.LM23:
+ 167 00d0 8F2D      		mov r24,r15
+ 168 00d2 0E94 0000 		call UART_Tx_Byte
+ 169               	.LM24:
+ 170 00d6 0E94 0000 		call UART_Tx_NL
+ 171               	.LM25:
+ 172 00da AE01      		movw r20,r28
+ 173 00dc 60E0      		ldi r22,lo8(0)
+ 174 00de 70E0      		ldi r23,hi8(0)
+ 175               	.LVL10:
+ 176 00e0 80E0      		ldi r24,lo8(.LC2)
+ 177 00e2 90E0      		ldi r25,hi8(.LC2)
+ 178 00e4 0E94 0000 		call UART_Tx_Parameter_NL
+ 179               	.LVL11:
+ 180               	.LM26:
+ 181 00e8 0E94 0000 		call WS2812B_Get_Max_Intensity
+ 182 00ec 482F      		mov r20,r24
+ 183 00ee 50E0      		ldi r21,lo8(0)
+ 184 00f0 60E0      		ldi r22,lo8(0)
+ 185 00f2 70E0      		ldi r23,hi8(0)
+ 186 00f4 80E0      		ldi r24,lo8(.LC3)
+ 187 00f6 90E0      		ldi r25,hi8(.LC3)
+ 188 00f8 0E94 0000 		call UART_Tx_Parameter_NL
+ 189 00fc 00C0      		rjmp .L5
+ 190               	.L4:
+ 191 00fe FF24      		clr r15
+ 192               	.L5:
+ 193               	.LM27:
+ 194 0100 0E94 0000 		call DataHandler_Buf_Flush
+ 195               	.LM28:
+ 196 0104 5C98      		cbi 43-32,4
+ 197               	.L2:
  198               	.LM29:
- 199 00fe 80E0      		ldi r24,lo8(0)
- 200 0100 60E8      		ldi r22,lo8(-128)
- 201 0102 40E8      		ldi r20,lo8(-128)
- 202 0104 0E94 0000 		call WS2812B_send_rgb_Target
- 203               	.LM30:
- 204 0108 5C9A      		sbi 43-32,4
- 205               	.LM31:
- 206 010a 0E94 0000 		call WS2812B_Get_Max_Intensity
- 207 010e 482F      		mov r20,r24
- 208 0110 50E0      		ldi r21,lo8(0)
- 209 0112 60E0      		ldi r22,lo8(0)
- 210 0114 70E0      		ldi r23,hi8(0)
- 211 0116 80E0      		ldi r24,lo8(.LC2)
- 212 0118 90E0      		ldi r25,hi8(.LC2)
- 213               	.L23:
- 214 011a 0E94 0000 		call UART_Tx_Parameter_NL
- 215               	.LM32:
- 216 011e 0E94 0000 		call DataHandler_Buf_Flush
- 217               	.LM33:
- 218 0122 5C98      		cbi 43-32,4
- 219 0124 00C0      		rjmp .L9
- 220               	.L11:
- 221               	.LM34:
- 222 0126 8FE4      		ldi r24,lo8(79)
- 223 0128 D816      		cp r13,r24
- 224 012a 01F0      		breq .L12
- 225 012c 2FE6      		ldi r18,lo8(111)
- 226 012e D216      		cp r13,r18
- 227 0130 01F4      		brne .L13
- 228               	.L12:
- 229               	.LM35:
- 230 0132 5C9A      		sbi 43-32,4
- 231               	.LM36:
- 232 0134 80E0      		ldi r24,lo8(0)
- 233 0136 60E0      		ldi r22,lo8(0)
- 234 0138 40E0      		ldi r20,lo8(0)
- 235 013a 0E94 0000 		call WS2812B_send_rgb_Target
- 236               	.LM37:
- 237 013e 0E94 0000 		call WS2812B_Get_Max_Intensity
- 238 0142 482F      		mov r20,r24
- 239 0144 50E0      		ldi r21,lo8(0)
- 240 0146 60E0      		ldi r22,lo8(0)
- 241 0148 70E0      		ldi r23,hi8(0)
- 242 014a 80E0      		ldi r24,lo8(.LC3)
- 243 014c 90E0      		ldi r25,hi8(.LC3)
- 244 014e 00C0      		rjmp .L23
- 245               	.L13:
- 246               	.LM38:
- 247 0150 37E4      		ldi r19,lo8(71)
- 248 0152 D316      		cp r13,r19
- 249 0154 01F0      		breq .L14
- 250 0156 87E6      		ldi r24,lo8(103)
- 251 0158 D816      		cp r13,r24
- 252 015a 01F4      		brne .L15
- 253               	.L14:
- 254               	.LM39:
- 255 015c 5C9A      		sbi 43-32,4
- 256               	.LM40:
- 257 015e 80E0      		ldi r24,lo8(0)
- 258 0160 60E8      		ldi r22,lo8(-128)
- 259 0162 40E0      		ldi r20,lo8(0)
- 260 0164 0E94 0000 		call WS2812B_send_rgb_Target
- 261               	.LM41:
- 262 0168 0E94 0000 		call WS2812B_Get_Max_Intensity
- 263 016c 482F      		mov r20,r24
- 264 016e 50E0      		ldi r21,lo8(0)
- 265 0170 60E0      		ldi r22,lo8(0)
- 266 0172 70E0      		ldi r23,hi8(0)
- 267 0174 80E0      		ldi r24,lo8(.LC4)
- 268 0176 90E0      		ldi r25,hi8(.LC4)
- 269 0178 00C0      		rjmp .L23
- 270               	.L15:
- 271               	.LM42:
- 272 017a 22E4      		ldi r18,lo8(66)
- 273 017c D216      		cp r13,r18
- 274 017e 01F0      		breq .L16
- 275 0180 32E6      		ldi r19,lo8(98)
- 276 0182 D316      		cp r13,r19
- 277 0184 01F4      		brne .L17
- 278               	.L16:
- 279               	.LM43:
- 280 0186 5C9A      		sbi 43-32,4
- 281               	.LM44:
- 282 0188 80E0      		ldi r24,lo8(0)
- 283 018a 60E0      		ldi r22,lo8(0)
- 284 018c 40E8      		ldi r20,lo8(-128)
- 285 018e 0E94 0000 		call WS2812B_send_rgb_Target
- 286               	.LM45:
- 287 0192 0E94 0000 		call WS2812B_Get_Max_Intensity
- 288 0196 482F      		mov r20,r24
- 289 0198 50E0      		ldi r21,lo8(0)
- 290 019a 60E0      		ldi r22,lo8(0)
- 291 019c 70E0      		ldi r23,hi8(0)
- 292 019e 80E0      		ldi r24,lo8(.LC5)
- 293 01a0 90E0      		ldi r25,hi8(.LC5)
- 294 01a2 00C0      		rjmp .L23
- 295               	.L17:
- 296               	.LM46:
- 297 01a4 80E5      		ldi r24,lo8(80)
- 298 01a6 D816      		cp r13,r24
- 299 01a8 01F0      		breq .L18
- 300 01aa 20E7      		ldi r18,lo8(112)
- 301 01ac D216      		cp r13,r18
- 302 01ae 01F4      		brne .L19
- 303               	.L18:
- 304               	.LM47:
- 305 01b0 5C9A      		sbi 43-32,4
- 306               	.LM48:
- 307 01b2 84E6      		ldi r24,lo8(100)
- 308 01b4 6BE3      		ldi r22,lo8(59)
- 309 01b6 4FE9      		ldi r20,lo8(-97)
- 310 01b8 0E94 0000 		call WS2812B_send_rgb_Target
- 311               	.LM49:
- 312 01bc 0E94 0000 		call WS2812B_Get_Max_Intensity
- 313 01c0 482F      		mov r20,r24
- 314 01c2 50E0      		ldi r21,lo8(0)
- 315 01c4 60E0      		ldi r22,lo8(0)
- 316 01c6 70E0      		ldi r23,hi8(0)
- 317 01c8 80E0      		ldi r24,lo8(.LC6)
- 318 01ca 90E0      		ldi r25,hi8(.LC6)
- 319 01cc 00C0      		rjmp .L23
- 320               	.L19:
- 321               	.LM50:
- 322 01ce 0E94 0000 		call WS2812B_Get_Max_Intensity
- 323 01d2 482F      		mov r20,r24
- 324 01d4 50E0      		ldi r21,lo8(0)
- 325 01d6 60E0      		ldi r22,lo8(0)
- 326 01d8 70E0      		ldi r23,hi8(0)
- 327 01da 80E0      		ldi r24,lo8(.LC7)
- 328 01dc 90E0      		ldi r25,hi8(.LC7)
- 329 01de 0E94 0000 		call UART_Tx_Parameter_NL
- 330               	.LM51:
- 331 01e2 0E94 0000 		call DataHandler_Buf_Flush
- 332               	.L9:
- 333               	.LM52:
- 334 01e6 0E94 0000 		call WS2812B_Sync
- 335 01ea 00C0      		rjmp .L20
- 336               	.LFE6:
- 362               	.Letext0:
+ 199 0106 82E5      		ldi r24,lo8(82)
+ 200 0108 F816      		cp r15,r24
+ 201 010a 01F0      		breq .L6
+ 202 010c 82E7      		ldi r24,lo8(114)
+ 203 010e F816      		cp r15,r24
+ 204 0110 01F4      		brne .L7
+ 205               	.L6:
+ 206               	.LM30:
+ 207 0112 80E8      		ldi r24,lo8(-128)
+ 208 0114 60E0      		ldi r22,lo8(0)
+ 209 0116 40E0      		ldi r20,lo8(0)
+ 210 0118 0E94 0000 		call WS2812B_send_rgb_Target
+ 211               	.LM31:
+ 212 011c 5C9A      		sbi 43-32,4
+ 213               	.LM32:
+ 214 011e 0E94 0000 		call WS2812B_Get_Max_Intensity
+ 215 0122 482F      		mov r20,r24
+ 216 0124 50E0      		ldi r21,lo8(0)
+ 217 0126 60E0      		ldi r22,lo8(0)
+ 218 0128 70E0      		ldi r23,hi8(0)
+ 219 012a 80E0      		ldi r24,lo8(.LC4)
+ 220 012c 90E0      		ldi r25,hi8(.LC4)
+ 221 012e 00C0      		rjmp .L21
+ 222               	.L7:
+ 223               	.LM33:
+ 224 0130 89E4      		ldi r24,lo8(73)
+ 225 0132 F816      		cp r15,r24
+ 226 0134 01F0      		breq .L9
+ 227 0136 89E6      		ldi r24,lo8(105)
+ 228 0138 F816      		cp r15,r24
+ 229 013a 01F4      		brne .L10
+ 230               	.L9:
+ 231               	.LM34:
+ 232 013c 80E0      		ldi r24,lo8(0)
+ 233 013e 60E8      		ldi r22,lo8(-128)
+ 234 0140 40E8      		ldi r20,lo8(-128)
+ 235 0142 0E94 0000 		call WS2812B_send_rgb_Target
+ 236               	.LM35:
+ 237 0146 5C9A      		sbi 43-32,4
+ 238               	.LM36:
+ 239 0148 0E94 0000 		call WS2812B_Get_Max_Intensity
+ 240 014c 482F      		mov r20,r24
+ 241 014e 50E0      		ldi r21,lo8(0)
+ 242 0150 60E0      		ldi r22,lo8(0)
+ 243 0152 70E0      		ldi r23,hi8(0)
+ 244 0154 80E0      		ldi r24,lo8(.LC5)
+ 245 0156 90E0      		ldi r25,hi8(.LC5)
+ 246 0158 00C0      		rjmp .L21
+ 247               	.L10:
+ 248               	.LM37:
+ 249 015a 8FE4      		ldi r24,lo8(79)
+ 250 015c F816      		cp r15,r24
+ 251 015e 01F0      		breq .L11
+ 252 0160 8FE6      		ldi r24,lo8(111)
+ 253 0162 F816      		cp r15,r24
+ 254 0164 01F4      		brne .L12
+ 255               	.L11:
+ 256               	.LM38:
+ 257 0166 5C9A      		sbi 43-32,4
+ 258               	.LM39:
+ 259 0168 80E0      		ldi r24,lo8(0)
+ 260 016a 60E0      		ldi r22,lo8(0)
+ 261 016c 40E0      		ldi r20,lo8(0)
+ 262 016e 0E94 0000 		call WS2812B_send_rgb_Target
+ 263               	.LM40:
+ 264 0172 0E94 0000 		call WS2812B_Get_Max_Intensity
+ 265 0176 482F      		mov r20,r24
+ 266 0178 50E0      		ldi r21,lo8(0)
+ 267 017a 60E0      		ldi r22,lo8(0)
+ 268 017c 70E0      		ldi r23,hi8(0)
+ 269 017e 80E0      		ldi r24,lo8(.LC6)
+ 270 0180 90E0      		ldi r25,hi8(.LC6)
+ 271 0182 00C0      		rjmp .L21
+ 272               	.L12:
+ 273               	.LM41:
+ 274 0184 87E4      		ldi r24,lo8(71)
+ 275 0186 F816      		cp r15,r24
+ 276 0188 01F0      		breq .L13
+ 277 018a 87E6      		ldi r24,lo8(103)
+ 278 018c F816      		cp r15,r24
+ 279 018e 01F4      		brne .L14
+ 280               	.L13:
+ 281               	.LM42:
+ 282 0190 5C9A      		sbi 43-32,4
+ 283               	.LM43:
+ 284 0192 80E0      		ldi r24,lo8(0)
+ 285 0194 60E8      		ldi r22,lo8(-128)
+ 286 0196 40E0      		ldi r20,lo8(0)
+ 287 0198 0E94 0000 		call WS2812B_send_rgb_Target
+ 288               	.LM44:
+ 289 019c 0E94 0000 		call WS2812B_Get_Max_Intensity
+ 290 01a0 482F      		mov r20,r24
+ 291 01a2 50E0      		ldi r21,lo8(0)
+ 292 01a4 60E0      		ldi r22,lo8(0)
+ 293 01a6 70E0      		ldi r23,hi8(0)
+ 294 01a8 80E0      		ldi r24,lo8(.LC7)
+ 295 01aa 90E0      		ldi r25,hi8(.LC7)
+ 296 01ac 00C0      		rjmp .L21
+ 297               	.L14:
+ 298               	.LM45:
+ 299 01ae 82E4      		ldi r24,lo8(66)
+ 300 01b0 F816      		cp r15,r24
+ 301 01b2 01F0      		breq .L15
+ 302 01b4 82E6      		ldi r24,lo8(98)
+ 303 01b6 F816      		cp r15,r24
+ 304 01b8 01F4      		brne .L16
+ 305               	.L15:
+ 306               	.LM46:
+ 307 01ba 5C9A      		sbi 43-32,4
+ 308               	.LM47:
+ 309 01bc 80E0      		ldi r24,lo8(0)
+ 310 01be 60E0      		ldi r22,lo8(0)
+ 311 01c0 40E8      		ldi r20,lo8(-128)
+ 312 01c2 0E94 0000 		call WS2812B_send_rgb_Target
+ 313               	.LM48:
+ 314 01c6 0E94 0000 		call WS2812B_Get_Max_Intensity
+ 315 01ca 482F      		mov r20,r24
+ 316 01cc 50E0      		ldi r21,lo8(0)
+ 317 01ce 60E0      		ldi r22,lo8(0)
+ 318 01d0 70E0      		ldi r23,hi8(0)
+ 319 01d2 80E0      		ldi r24,lo8(.LC8)
+ 320 01d4 90E0      		ldi r25,hi8(.LC8)
+ 321 01d6 00C0      		rjmp .L21
+ 322               	.L16:
+ 323               	.LM49:
+ 324 01d8 80E5      		ldi r24,lo8(80)
+ 325 01da F816      		cp r15,r24
+ 326 01dc 01F0      		breq .L17
+ 327 01de 80E7      		ldi r24,lo8(112)
+ 328 01e0 F816      		cp r15,r24
+ 329 01e2 01F4      		brne .L8
+ 330               	.L17:
+ 331               	.LM50:
+ 332 01e4 5C9A      		sbi 43-32,4
+ 333               	.LM51:
+ 334 01e6 84E6      		ldi r24,lo8(100)
+ 335 01e8 6BE3      		ldi r22,lo8(59)
+ 336 01ea 4FE9      		ldi r20,lo8(-97)
+ 337 01ec 0E94 0000 		call WS2812B_send_rgb_Target
+ 338               	.LM52:
+ 339 01f0 0E94 0000 		call WS2812B_Get_Max_Intensity
+ 340 01f4 482F      		mov r20,r24
+ 341 01f6 50E0      		ldi r21,lo8(0)
+ 342 01f8 60E0      		ldi r22,lo8(0)
+ 343 01fa 70E0      		ldi r23,hi8(0)
+ 344 01fc 80E0      		ldi r24,lo8(.LC9)
+ 345 01fe 90E0      		ldi r25,hi8(.LC9)
+ 346               	.L21:
+ 347 0200 0E94 0000 		call UART_Tx_Parameter_NL
+ 348               	.LM53:
+ 349 0204 0E94 0000 		call DataHandler_Buf_Flush
+ 350               	.LM54:
+ 351 0208 5C98      		cbi 43-32,4
+ 352 020a FF24      		clr r15
+ 353               	.L8:
+ 354               	.LM55:
+ 355 020c 0E94 0000 		call WS2812B_Sync
+ 356 0210 00C0      		rjmp .L18
+ 357               	.LFE6:
+ 383               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\WALTON\AppData\Local\Temp/ccvhnjGy.s:2      *ABS*:0000003f __SREG__
-C:\Users\WALTON\AppData\Local\Temp/ccvhnjGy.s:3      *ABS*:0000003e __SP_H__
-C:\Users\WALTON\AppData\Local\Temp/ccvhnjGy.s:4      *ABS*:0000003d __SP_L__
-C:\Users\WALTON\AppData\Local\Temp/ccvhnjGy.s:5      *ABS*:00000034 __CCP__
-C:\Users\WALTON\AppData\Local\Temp/ccvhnjGy.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\WALTON\AppData\Local\Temp/ccvhnjGy.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\WALTON\AppData\Local\Temp/ccvhnjGy.s:36     .text:00000000 main
+C:\Users\WALTON\AppData\Local\Temp/ccfjhy4B.s:2      *ABS*:0000003f __SREG__
+C:\Users\WALTON\AppData\Local\Temp/ccfjhy4B.s:3      *ABS*:0000003e __SP_H__
+C:\Users\WALTON\AppData\Local\Temp/ccfjhy4B.s:4      *ABS*:0000003d __SP_L__
+C:\Users\WALTON\AppData\Local\Temp/ccfjhy4B.s:5      *ABS*:00000034 __CCP__
+C:\Users\WALTON\AppData\Local\Temp/ccfjhy4B.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\WALTON\AppData\Local\Temp/ccfjhy4B.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\WALTON\AppData\Local\Temp/ccfjhy4B.s:40     .text:00000000 main
 
 UNDEFINED SYMBOLS
 WS2812B_Init
@@ -373,9 +398,12 @@ UART_RX_Packet_Read_Complete
 DataHandler_Buf_Get
 DataHandler_Char_To_Dec
 WS2812B_Set_Max_Intensity
+UART_Tx_Text_SP
+UART_Tx_Byte
+UART_Tx_NL
+UART_Tx_Parameter_NL
+WS2812B_Get_Max_Intensity
 DataHandler_Buf_Flush
 WS2812B_send_rgb_Target
-WS2812B_Get_Max_Intensity
-UART_Tx_Parameter_NL
 WS2812B_Sync
 __do_copy_data
