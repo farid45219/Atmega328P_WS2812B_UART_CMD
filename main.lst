@@ -1,0 +1,205 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               		.data
+  17               	.LC0:
+  18 0000 4465 6275 		.string	"Debug Started"
+  18      6720 5374 
+  18      6172 7465 
+  18      6400 
+  19               	.LC1:
+  20 000e 4578 6563 		.string	"Executed RED"
+  20      7574 6564 
+  20      2052 4544 
+  20      00
+  21               	.LC2:
+  22 001b 4578 6563 		.string	"Executed ICE Blue"
+  22      7574 6564 
+  22      2049 4345 
+  22      2042 6C75 
+  22      6500 
+  23               	.LC3:
+  24 002d 4578 6563 		.string	"Executed Off"
+  24      7574 6564 
+  24      204F 6666 
+  24      00
+  25               	.LC4:
+  26 003a 4578 6563 		.string	"Executed Green"
+  26      7574 6564 
+  26      2047 7265 
+  26      656E 00
+  27               	.LC5:
+  28 0049 4578 6563 		.string	"Executed Blue"
+  28      7574 6564 
+  28      2042 6C75 
+  28      6500 
+  29               		.text
+  30               	.global	main
+  32               	main:
+  33               	.LFB6:
+  34               	.LM1:
+  35 0000 1F93      		push r17
+  36               	/* prologue: function */
+  37               	/* frame size = 0 */
+  38               	.LM2:
+  39 0002 0E94 0000 		call WS2812B_Init
+  40               	.LM3:
+  41 0006 60E8      		ldi r22,lo8(9600)
+  42 0008 75E2      		ldi r23,hi8(9600)
+  43 000a 80E0      		ldi r24,hlo8(9600)
+  44 000c 90E0      		ldi r25,hhi8(9600)
+  45 000e 0E94 0000 		call UART_Init
+  46               	.LM4:
+  47 0012 80E0      		ldi r24,lo8(.LC0)
+  48 0014 90E0      		ldi r25,hi8(.LC0)
+  49 0016 0E94 0000 		call UART_Tx_Text_NL
+  50               	.LM5:
+  51 001a 549A      		sbi 42-32,4
+  52               	.LM6:
+  53 001c 5C98      		cbi 43-32,4
+  54 001e 10E0      		ldi r17,lo8(0)
+  55               	.LVL0:
+  56               	.L13:
+  57               	.LM7:
+  58 0020 0E94 0000 		call UART_Data_Available
+  59 0024 8823      		tst r24
+  60 0026 01F0      		breq .L2
+  61               	.LM8:
+  62 0028 5C9A      		sbi 43-32,4
+  63               	.LM9:
+  64 002a 80E0      		ldi r24,lo8(0)
+  65 002c 90E0      		ldi r25,hi8(0)
+  66 002e 0E94 0000 		call UART_Buf_Get
+  67 0032 182F      		mov r17,r24
+  68               	.LM10:
+  69 0034 0E94 0000 		call UART_Data_Print_Buf
+  70               	.LM11:
+  71 0038 0E94 0000 		call UART_RX_Packet_Read_Complete
+  72               	.LM12:
+  73 003c 5C98      		cbi 43-32,4
+  74               	.L2:
+  75               	.LM13:
+  76 003e 1235      		cpi r17,lo8(82)
+  77 0040 01F0      		breq .L3
+  78 0042 1237      		cpi r17,lo8(114)
+  79 0044 01F4      		brne .L4
+  80               	.L3:
+  81               	.LM14:
+  82 0046 80E8      		ldi r24,lo8(-128)
+  83 0048 60E0      		ldi r22,lo8(0)
+  84 004a 40E0      		ldi r20,lo8(0)
+  85 004c 0E94 0000 		call WS2812B_send_rgb_Target
+  86               	.LM15:
+  87 0050 5C9A      		sbi 43-32,4
+  88               	.LM16:
+  89 0052 80E0      		ldi r24,lo8(.LC1)
+  90 0054 90E0      		ldi r25,hi8(.LC1)
+  91 0056 00C0      		rjmp .L15
+  92               	.L4:
+  93               	.LM17:
+  94 0058 1934      		cpi r17,lo8(73)
+  95 005a 01F0      		breq .L6
+  96 005c 1936      		cpi r17,lo8(105)
+  97 005e 01F4      		brne .L7
+  98               	.L6:
+  99               	.LM18:
+ 100 0060 80E0      		ldi r24,lo8(0)
+ 101 0062 60E8      		ldi r22,lo8(-128)
+ 102 0064 40E8      		ldi r20,lo8(-128)
+ 103 0066 0E94 0000 		call WS2812B_send_rgb_Target
+ 104               	.LM19:
+ 105 006a 5C9A      		sbi 43-32,4
+ 106               	.LM20:
+ 107 006c 80E0      		ldi r24,lo8(.LC2)
+ 108 006e 90E0      		ldi r25,hi8(.LC2)
+ 109 0070 00C0      		rjmp .L15
+ 110               	.L7:
+ 111               	.LM21:
+ 112 0072 1F34      		cpi r17,lo8(79)
+ 113 0074 01F0      		breq .L8
+ 114 0076 1F36      		cpi r17,lo8(111)
+ 115 0078 01F4      		brne .L9
+ 116               	.L8:
+ 117               	.LM22:
+ 118 007a 5C9A      		sbi 43-32,4
+ 119               	.LM23:
+ 120 007c 80E0      		ldi r24,lo8(0)
+ 121 007e 60E0      		ldi r22,lo8(0)
+ 122 0080 40E0      		ldi r20,lo8(0)
+ 123 0082 0E94 0000 		call WS2812B_send_rgb_Target
+ 124               	.LM24:
+ 125 0086 80E0      		ldi r24,lo8(.LC3)
+ 126 0088 90E0      		ldi r25,hi8(.LC3)
+ 127 008a 00C0      		rjmp .L15
+ 128               	.L9:
+ 129               	.LM25:
+ 130 008c 1734      		cpi r17,lo8(71)
+ 131 008e 01F0      		breq .L10
+ 132 0090 1736      		cpi r17,lo8(103)
+ 133 0092 01F4      		brne .L11
+ 134               	.L10:
+ 135               	.LM26:
+ 136 0094 5C9A      		sbi 43-32,4
+ 137               	.LM27:
+ 138 0096 80E0      		ldi r24,lo8(0)
+ 139 0098 60E8      		ldi r22,lo8(-128)
+ 140 009a 40E0      		ldi r20,lo8(0)
+ 141 009c 0E94 0000 		call WS2812B_send_rgb_Target
+ 142               	.LM28:
+ 143 00a0 80E0      		ldi r24,lo8(.LC4)
+ 144 00a2 90E0      		ldi r25,hi8(.LC4)
+ 145 00a4 00C0      		rjmp .L15
+ 146               	.L11:
+ 147               	.LM29:
+ 148 00a6 1234      		cpi r17,lo8(66)
+ 149 00a8 01F0      		breq .L12
+ 150 00aa 1236      		cpi r17,lo8(98)
+ 151 00ac 01F4      		brne .L5
+ 152               	.L12:
+ 153               	.LM30:
+ 154 00ae 5C9A      		sbi 43-32,4
+ 155               	.LM31:
+ 156 00b0 80E0      		ldi r24,lo8(0)
+ 157 00b2 60E0      		ldi r22,lo8(0)
+ 158 00b4 40E8      		ldi r20,lo8(-128)
+ 159 00b6 0E94 0000 		call WS2812B_send_rgb_Target
+ 160               	.LM32:
+ 161 00ba 80E0      		ldi r24,lo8(.LC5)
+ 162 00bc 90E0      		ldi r25,hi8(.LC5)
+ 163               	.L15:
+ 164 00be 0E94 0000 		call UART_Tx_Text_NL
+ 165               	.LM33:
+ 166 00c2 5C98      		cbi 43-32,4
+ 167 00c4 10E0      		ldi r17,lo8(0)
+ 168               	.L5:
+ 169               	.LM34:
+ 170 00c6 0E94 0000 		call WS2812B_Sync
+ 171 00ca 00C0      		rjmp .L13
+ 172               	.LFE6:
+ 198               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\WALTON\AppData\Local\Temp/ccs9zhyb.s:2      *ABS*:0000003f __SREG__
+C:\Users\WALTON\AppData\Local\Temp/ccs9zhyb.s:3      *ABS*:0000003e __SP_H__
+C:\Users\WALTON\AppData\Local\Temp/ccs9zhyb.s:4      *ABS*:0000003d __SP_L__
+C:\Users\WALTON\AppData\Local\Temp/ccs9zhyb.s:5      *ABS*:00000034 __CCP__
+C:\Users\WALTON\AppData\Local\Temp/ccs9zhyb.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\WALTON\AppData\Local\Temp/ccs9zhyb.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\WALTON\AppData\Local\Temp/ccs9zhyb.s:32     .text:00000000 main
+
+UNDEFINED SYMBOLS
+WS2812B_Init
+UART_Init
+UART_Tx_Text_NL
+UART_Data_Available
+UART_Buf_Get
+UART_Data_Print_Buf
+UART_RX_Packet_Read_Complete
+WS2812B_send_rgb_Target
+WS2812B_Sync
+__do_copy_data
